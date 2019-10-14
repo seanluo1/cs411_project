@@ -1,8 +1,3 @@
-# run:
-#       python3 run_server.py
-# clean:
-#    find . -name '*.pyc' -exec rm --force {};
-
 help:
 	@echo "   run       - starts flask server"
 	@echo "   install   - insatll all project dependencies"
