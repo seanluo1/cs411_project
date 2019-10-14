@@ -2,6 +2,9 @@ from flask import Flask
 from views.routes import index_blueprint
 from flask_sqlalchemy import SQLAlchemy
 
+
+# TODO: connect db to sql sb
+
 db = SQLAlchemy()
 app = Flask(__name__)
 #app.config["SQLALCHEMY_DATABASE_URI"] = ""
