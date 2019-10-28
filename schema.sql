@@ -1,5 +1,3 @@
-# https://flask.palletsprojects.com/en/1.0.x/tutorial/database/
-
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Likes;
 DROP TABLE IF EXISTS Song;

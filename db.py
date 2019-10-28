@@ -1,14 +1,8 @@
 import sqlite3
+
 import click
-from flask import current_app, g, Flask
+from flask import current_app, g
 from flask.cli import with_appcontext
-from flask import Flask
-from views.routes import index_blueprint
-from flask_sqlalchemy import SQLAlchemy
-
-
-# Follow this tutorial:
-# https://flask.palletsprojects.com/en/1.0.x/tutorial/database/
 
 
 def get_db():
@@ -43,15 +37,3 @@ def init_db_command():
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
-
-def create_app():
-    app = Flask(__name__)
-
-    db = SQLAlchemy()
-    db.init_app(app)
-
-    return app
-
-app = create_app()
-app.register_blueprint(index_blueprint)
-app.run(debug=True)
