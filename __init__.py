@@ -32,4 +32,7 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
+    from . import routes
+    app.register_blueprint(routes.index_blueprint)
+
     return app
