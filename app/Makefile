@@ -5,8 +5,13 @@ help:
 install:
 	pip3 install -r requirements.txt
 
+init:
+	export FLASK_APP=app
+	export FLASK_ENV=development
+	flask init-db
+
 run:
-	python3 run_server.py
+	flask run
 
 clean:
 	find . -name '*.pyc' -delete
