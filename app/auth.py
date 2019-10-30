@@ -12,8 +12,8 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        firstName = request.form['first name']
-        lastName = request.form['last name']
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
         email = request.form['email']
         password = request.form['password']
         db = get_db()
@@ -34,7 +34,7 @@ def register():
 
         if error is None:
             db.execute(
-                'INSERT INTO User (FirstName, LastName, Email, Password) VALUES (?, ?)',
+                'INSERT INTO User (FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?)',
                 (firstName, lastName, email, generate_password_hash(password))
             )
             db.commit()
@@ -68,6 +68,34 @@ def login():
         flash(error)
 
     return render_template('auth/login.html')
+
+@bp.route('/deleteAccount', methods=('GET', 'POST'))
+def deleteAccount():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        db = get_db()
+        error = None
+        user = db.execute(
+            'SELECT * FROM User WHERE email = ?', (email,)
+        ).fetchone()
+
+        if user is None:
+            error = 'Invalid Email.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+
+        if error is None:
+            db.execute(
+                'DELETE FROM User WHERE Email=(?)',
+                (email,)
+            )
+            db.commit()
+            return render_template('auth/deleteSuccess.html')
+
+        flash(error)
+
+    return render_template('auth/deleteAccount.html')
 
 @bp.before_app_request
 def load_logged_in_user():
