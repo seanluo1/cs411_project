@@ -59,3 +59,21 @@ def delete_song():
         db.commit()
 
     return render_template('nav_bar/delete_song.html')
+
+@bp.route('/edit_song', methods=('GET', 'POST'))
+def edit_song():
+    if request.method == 'POST':
+        db = get_db()
+        song_id = request.form['song_id']
+        name = request.form['song_name']
+        genre = request.form['genre']
+        tempo = request.form['tempo']
+
+        db.execute(
+            'UPDATE Song SET SongName = ?, Genre = ?, Tempo = ?'
+            ' WHERE SongId = ?',
+            (name,genre, tempo, song_id)
+        )
+        db.commit()
+
+    return render_template('nav_bar/edit_song.html')
