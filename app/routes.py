@@ -30,11 +30,13 @@ def test2():
     all_users = {}
 
     for item in user_table.fetchall():
-        all_users["user_id"] = item[0]
-        all_users["first_name"] = item[1]
-        all_users["last_name"] = item[2]
-        all_users["email"] = item[3]
-        all_users["password"] = item[4]
+        temp_dict = {}
+        user_id = item[0]
+        temp_dict["first_name"] = item[1]
+        temp_dict["last_name"] = item[2]
+        temp_dict["email"] = item[3]
+        temp_dict["password"] = item[4]
+        all_users[user_id]= temp_dict
 
     print(all_users)
 
