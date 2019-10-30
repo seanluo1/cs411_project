@@ -1,0 +1,17 @@
+{% extends 'logged_in_base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Add Song{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="song_name"> Name</label>
+    <input name="song_name" id="song_name" required>
+    <label for="genre">Genre</label>
+    <input type="genre" name="genre" id="genre" required>
+    <label for="tempo">Tempo</label>
+    <input type="tempo" name="tempo" id="tempo" required>
+    <input type="submit" value="Add">
+  </form>
+{% endblock %}

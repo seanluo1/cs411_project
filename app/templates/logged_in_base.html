@@ -1,0 +1,20 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - SongHub</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>SongHub</h1>
+  <ul>
+      <li><a href="{{ url_for('songs.add_song') }}">Add Song</a>
+      <li><a href="{{ url_for('home.index') }}">Edit Song</a>
+      <li><a href="{{ url_for('songs.all_songs') }}">All Songs</a>
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
