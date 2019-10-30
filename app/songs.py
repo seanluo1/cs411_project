@@ -44,3 +44,18 @@ def all_songs():
     print(all_songs)
 
     return render_template("nav_bar/my_songs.html", data = all_songs)
+
+@bp.route('/delete_song', methods=('GET', 'POST'))
+def delete_song():
+    if request.method == 'POST':
+        db = get_db()
+        song_id = request.form['song_id']
+
+        db.execute(
+            'DELETE FROM Song WHERE SongId=(?)',
+            (song_id)
+        )
+
+        db.commit()
+
+    return render_template('nav_bar/delete_song.html')

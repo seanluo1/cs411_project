@@ -1,0 +1,13 @@
+{% extends 'logged_in_base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Delete Song{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="song_id"> song Id</label>
+    <input name="song_id" id="song_id" required>
+    <input type="submit" value="Delete">
+  </form>
+{% endblock %}
