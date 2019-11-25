@@ -14,7 +14,7 @@ CREATE TABLE User (
   LastName TEXT NOT NULL,
   Email TEXT UNIQUE NOT NULL,
   Password TEXT NOT NULL,
-  SongOfWeek TEXT NOT NULL
+  SongOfWeek TEXT
 );
 
 CREATE TABLE Song (

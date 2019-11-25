@@ -4,3 +4,14 @@
   <h1>{% block title %}SongHub, the best Hub on the internet.{% endblock %}</h1>
 {% endblock %}
 
+{% block content %}
+<h2>Hello {{g.user['FirstName']}}!</h2>
+
+{% if g.user['SongOfWeek'] %}
+  <h2>Your song of the week is {{g.user['SongOfWeek']}}</h2>
+{% else %}
+  <h2>You haven't assigned a Song of the Week yet!</h2>
+{% endif %}
+
+{% endblock %}
+
