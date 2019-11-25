@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block content %}
-<h2>Hello {{g.user['FirstName']}}!</h2>
+{% if g.user['FirstName'] %}
+  <h2>Hello {{g.user['FirstName']}}!</h2>
+{% else %}
+  <h2>Please login.</h2>
+{% endif %}
 
 {% if g.user['SongOfWeek'] %}
   <h2>Your song of the week is {{g.user['SongOfWeek']}}</h2>
