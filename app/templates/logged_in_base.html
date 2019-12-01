@@ -1,16 +1,26 @@
-<!doctype html>
-<title>{% block title %}{% endblock %} - SongHub</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% extends 'bootstrap/base.html' %}
+{% block title %}
+    {% if title %}{{ title }} - SongHub{% else %}Welcome to SongHub{% endif %}
+{% endblock %}
+{% block styles %}
+{{super()}}
 <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-<nav>
-  <h1>SongHub</h1>
-  <ul>
-      <li><a href="{{ url_for('songs.add_song') }}">Add Song</a>
-      <li><a href="{{ url_for('songs.edit_song') }}">Edit Song</a>
-      <li><a href="{{ url_for('songs.delete_song') }}">Delete Song</a>
-      <li><a href="{{ url_for('songs.all_songs') }}">All Songs</a>
+{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-default">
+  <a class="navbar-brand" href="/">SongHub</a>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav navbar-right">
+      <li><a href="{{ url_for('songs.add_song') }}">Add Song</a></li>
+      <li><a href="{{ url_for('songs.edit_song') }}">Edit Song</a></li>
+      <li><a href="{{ url_for('songs.delete_song') }}">Delete Song</a></li>
+      <li><a href="{{ url_for('songs.all_songs') }}">All Songs</a></li>
+      <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
   </ul>
+  </div>
 </nav>
+{% endblock %}
+{% block content %}
 <section class="content">
   <header>
     {% block header %}{% endblock %}
@@ -18,5 +28,5 @@
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
   {% endfor %}
-  {% block content %}{% endblock %}
 </section>
+{% endblock %}
