@@ -28,6 +28,7 @@
       <th>Genre</th>
       <th>Url</th>
       <th>Liked</th>
+      <th>Song of the Week</th>
     </tr>
 
     {% for k, v in data.items() %}
@@ -41,6 +42,8 @@
           {% else %}
           <td><input type="checkbox" name="liked_box" value={{ k }}  /> &nbsp;</td>
           {% endif %}
+        {% elif key == 'sotw' %}
+          <td><button type="submit" name="sotw_button" value={{ k }} />Select</td>
         {% else %}
           <td> {{ val }} </td>
         {% endif %}

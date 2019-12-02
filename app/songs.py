@@ -70,6 +70,17 @@ def all_songs():
                 (g.user["Id"], song)
             )
 
+        sotw_id = request.form["sotw_button"]
+        sotw = get_db().execute(
+            'SELECT SongName FROM Song WHERE SongId = ?',
+            (sotw_id,)
+        ).fetchone()
+        
+        db_instance.execute(
+            'UPDATE User SET SongOfWeek = ? WHERE Id = ?',
+            (sotw['SongName'], g.user["Id"],)
+        )
+
         db_instance.commit()
         
 
@@ -93,6 +104,9 @@ def all_songs():
             print("not found")
             print(song_id)
             temp_dict["liked"] = "F"
+        
+        temp_dict["sotw"] = item[0] #this value doesn't actually matter
+
         all_songs[song_id]= temp_dict
 
     like_table = db_instance.execute("SELECT * FROM Likes")
