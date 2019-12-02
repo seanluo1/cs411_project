@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, session
 )
 from werkzeug.exceptions import abort
 from .auth import login_required
@@ -15,33 +15,91 @@ def add_song():
 
         name = request.form['song_name']
         genre = request.form['genre']
-        url = request.form['url']
+        song_url = request.form['song_url']
 
 
 
         db.execute(
         'INSERT INTO Song (SongName, Genre, Song_Url) VALUES (?, ?, ?)',
-        (name, genre, url))
+        (name, genre, song_url))
 
         db.commit()
 
     return render_template('nav_bar/add_song.html')
 
-@bp.route("/all_songs")
+@bp.route("/all_songs", methods=('GET', 'POST'))
 def all_songs():
     db_instance = get_db()
     user_table = db_instance.execute("SELECT * FROM Song")
     all_songs = {}
+    liked_songs = []
+    user_id = session.get('user_id')
+
+    g.user = get_db().execute(
+    'SELECT * FROM User WHERE Id = ?', (user_id,)
+    ).fetchone()
+
+    if request.method == 'POST':
+        liked_songs = request.form.getlist("liked_box")
+        likes = get_db().execute(
+        'SELECT * FROM Likes WHERE UserId = ?' ,(g.user["Id"], )
+        ).fetchall()
+
+        # print("likes")
+        # print(likes)
+        # print("liked_songs")
+        # print(liked_songs)
+        # for song in likes:
+        #     print("song idddd")
+        #     print(song["SongId"])
+        #     if song["SongId"] in liked_songs:
+        #         db_instance.execute(
+        #         'INSERT OR REPLACE INTO Likes (UserId, SongId) VALUES (?, ?)',
+        #         (g.user["Id"], song["SongId"]))
+        #     else:
+        #         print("heetrdyfugihojk;l")
+        #         print(g.user["Id"])
+        #         print(song["SongId"])
+        #         db_instance.execute(
+        #         'DELETE FROM Likes WHERE UserId=(?) AND SongId=(?)',
+        #         (g.user["Id"], song["SongId"]))
+
+        for song in liked_songs:
+            db_instance.execute(
+                'INSERT OR REPLACE INTO Likes (UserId, SongId) VALUES (?, ?)',
+                (g.user["Id"], song)
+            )
+
+        db_instance.commit()
+        
 
     for item in user_table.fetchall():
         temp_dict = {}
-        user_id = item[0]
+        song_id = item[0]
         temp_dict["song_name"] = item[1]
         temp_dict["genre"] = item[2]
-        temp_dict["url"] = item[3]
-        all_songs[user_id]= temp_dict
+        temp_dict["song_url"] = item[3]
+        like_table = db_instance.execute("SELECT * FROM Likes ")
 
-    print(all_songs)
+        found_in_likes = get_db().execute(
+        'SELECT * FROM Likes WHERE UserId = ? AND SongId = ?' ,(g.user["Id"], song_id, )
+        ).fetchone()
+
+        if found_in_likes:
+            temp_dict["liked"] = "T"
+            print("found")
+            print(song_id)
+        else:
+            print("not found")
+            print(song_id)
+            temp_dict["liked"] = "F"
+        all_songs[song_id]= temp_dict
+
+    like_table = db_instance.execute("SELECT * FROM Likes")
+    for like in like_table:
+        print(dict(like))
+
+
 
     return render_template("nav_bar/my_songs.html", data = all_songs)
 
@@ -67,12 +125,12 @@ def edit_song():
         song_id = request.form['song_id']
         name = request.form['song_name']
         genre = request.form['genre']
-        url = request.form['url']
+        song_url = request.form['song_url']
 
         db.execute(
             'UPDATE Song SET SongName = ?, Genre = ?, Song_Url = ?'
             ' WHERE SongId = ?',
-            (name,genre, url, song_id)
+            (name,genre, song_url, song_id)
         )
         db.commit()
 
