@@ -9,6 +9,7 @@ from .db import get_db
 bp = Blueprint('home', __name__)
 
 @bp.route('/')
+@login_required
 def index():
     #db = get_db()
     # posts = db.execute(
