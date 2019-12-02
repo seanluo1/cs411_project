@@ -11,11 +11,6 @@ jQuery(document).ready(function($) {
 </script>
 {% endblock %}
 
-{% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{ url_for('static', filename='users.css') }}">
-{% endblock %}
-
 {% block header %}
   <h1>{% block title %}All Users{% endblock %}</h1>
 {% endblock %}
