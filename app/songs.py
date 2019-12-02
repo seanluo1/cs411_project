@@ -15,13 +15,13 @@ def add_song():
 
         name = request.form['song_name']
         genre = request.form['genre']
-        tempo = request.form['tempo']
+        url = request.form['url']
 
 
 
         db.execute(
-        'INSERT INTO Song (SongName, Genre, Tempo) VALUES (?, ?, ?)',
-        (name, genre, tempo))
+        'INSERT INTO Song (SongName, Genre, Song_Url) VALUES (?, ?, ?)',
+        (name, genre, url))
 
         db.commit()
 
@@ -38,7 +38,7 @@ def all_songs():
         user_id = item[0]
         temp_dict["song_name"] = item[1]
         temp_dict["genre"] = item[2]
-        temp_dict["tempo"] = item[3]
+        temp_dict["url"] = item[3]
         all_songs[user_id]= temp_dict
 
     print(all_songs)
@@ -67,12 +67,12 @@ def edit_song():
         song_id = request.form['song_id']
         name = request.form['song_name']
         genre = request.form['genre']
-        tempo = request.form['tempo']
+        url = request.form['url']
 
         db.execute(
-            'UPDATE Song SET SongName = ?, Genre = ?, Tempo = ?'
+            'UPDATE Song SET SongName = ?, Genre = ?, Song_Url = ?'
             ' WHERE SongId = ?',
-            (name,genre, tempo, song_id)
+            (name,genre, url, song_id)
         )
         db.commit()
 
