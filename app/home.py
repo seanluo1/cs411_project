@@ -3,12 +3,13 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from app.auth import login_required
-from app.db import get_db
+from .auth import login_required
+from .db import get_db
 
 bp = Blueprint('home', __name__)
 
 @bp.route('/')
+@login_required
 def index():
     #db = get_db()
     # posts = db.execute(

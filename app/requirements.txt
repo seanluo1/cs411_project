@@ -1,3 +1,7 @@
 Flask==1.1.1
 Flask-SQLAlchemy == 2.4.1
+<<<<<<< HEAD
 pymongo==3.5.1
+=======
+flask-bootstrap == 3.3.7.1
+>>>>>>> aaf9061e61768fa6fca4757fe5b100a338c121ba

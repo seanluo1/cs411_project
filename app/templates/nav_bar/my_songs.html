@@ -5,11 +5,55 @@
 {% endblock %}
 
 {% block content %}
-<table>
-  {% for item in data.items() %}
-     <tr>
-          <th> {{ item }} </th>
-     </tr>
-  {% endfor %}
-</table>
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 15px;
+    text-align: left;
+  }
+  table#t01 {
+    width: 100%;    
+    background-color: #f1f1c1;
+  }
+</style>
+
+<form method="post">  
+  <table method="post">
+    <tr>
+      <th>Id</th>
+      <th>Song Name</th>
+      <th>Genre</th>
+      <th>Url</th>
+      <th>Liked</th>
+      <th>Song of the Week</th>
+    </tr>
+
+    {% for k, v in data.items() %}
+    <tr>
+        <td> {{ k }} </td>
+        {% for key, val in v.items() %}
+      
+        {% if key == 'liked' %}
+          {% if val == 'T' %}
+          <td><input type="checkbox" name="liked_box" value={{ k }} checked /> &nbsp;</td>
+          {% else %}
+          <td><input type="checkbox" name="liked_box" value={{ k }}  /> &nbsp;</td>
+          {% endif %}
+        {% elif key == 'sotw' %}
+          <td><button type="submit" name="sotw_button" value={{ k }} />Select</td>
+        {% else %}
+          <td> {{ val }} </td>
+        {% endif %}
+
+        {% endfor %}
+
+        
+    </tr>
+    {% endfor %}
+  </table>
+  <input type="submit">
+</form>
 {% endblock %}
