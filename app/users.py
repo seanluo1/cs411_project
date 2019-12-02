@@ -9,6 +9,7 @@ import json
 bp = Blueprint('users', __name__)
 
 @bp.route("/users")
+@login_required
 def all_users():
     db_instance = get_db()
     user_table = db_instance.execute("SELECT * FROM User")
@@ -27,6 +28,7 @@ def all_users():
 
 
 @bp.route("/users/id/<int:user_id>")
+@login_required
 def user_page(user_id):
     db_instance = get_db()
     user = db_instance.execute('SELECT * FROM User WHERE id = ?', (user_id,)).fetchone()
