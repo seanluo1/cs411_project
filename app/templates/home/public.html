@@ -6,8 +6,36 @@
 
 {% block content %}
   <h2>Welcome to {{data['name']}}!</h2>
-  <h4>Liked Songs!</h4>
-  <style>
+  <br><br>
+  <div class ="container">
+      <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Liked songs!</div>
+
+          <!-- Table -->
+          <table class="table">
+              <tr>
+                  <th> Id </th>
+                  <th> Song Name </th>
+                  <th> Genre </th>
+                  <th> URL </th>
+              </tr>
+              {% for song in song_data %}
+              <tr>
+                  {% for val in song %}
+                    <td> {{ val }} </td>
+                  {% endfor %}
+              </tr>
+              {% endfor %}
+          </table>
+      </div>
+  </div>
+
+
+
+
+
+  <!-- <style>
     table, th, td {
       border: 1px solid black;
       border-collapse: collapse;
@@ -33,7 +61,6 @@
 
       {% for song in song_data %}
       <tr>
-          <!-- <td> {{ song["SongId"] }} </td> -->
           {% for val in song %}
             <td> {{ val }} </td>
           {% endfor %}
@@ -41,5 +68,5 @@
       </tr>
       {% endfor %}
     </table>
-  </form>
+  </form> -->
 {% endblock %}
