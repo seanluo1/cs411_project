@@ -1,0 +1,35 @@
+{% extends 'logged_in_base.html' %}
+
+
+{% block header %}
+  <h1>{% block title %}My Groups{% endblock %}</h1>
+{% endblock %}
+
+
+
+{% block content %}
+<div class ="container">
+    <div class="page-header">
+            <h1>My Groups <small> Share the Joy</small></h1>
+            <div class="btn-group" role="group" aria-label="">
+                    <a role="button" type="button" class="btn btn-primary" href="/new_group"><span class="small glyphicon glyphicon-plus"></span> Add New Group</a>
+            </div>
+    </div>
+    <div class="panel panel-default">
+      
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th> Group Name </th>
+                <th> Admin Id </th>
+            </tr>
+            {% for item in data %}
+            <tr class="clickable-row" data-href='/users/id/{{item[0]}}'>
+                <td> {{ item['name'] }} </td>
+                <td> {{ item['admin_id'] }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -2,6 +2,8 @@ import os
 
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_pymongo import pymongo
+
 
 
 
@@ -28,11 +30,20 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+
+    dblist = myclient.list_database_names()
+    if "mydatabase" in dblist:
+        print("The database exists.")
+    else:
+        print("Doesn't exist.")
+    mydb = myclient["mydatabase"]
+
     from . import db
     db.init_app(app)
 
-    # from routes import test
-    # app.register_blueprint(routes.index_blueprint)
+    from . import groups
+    app.register_blueprint(groups.bp)
 
     from . import auth
     app.register_blueprint(auth.bp)
