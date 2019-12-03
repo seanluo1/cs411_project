@@ -1,0 +1,27 @@
+{% extends 'logged_in_base.html' %}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+{% block header %}
+  <h1>{% block title %}New Group{% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+<div class="container">
+  <form class="form-signin" method="post">
+    <h2 class="form-signin-heading">New Group</h2>
+    <label for="groupName">Group Name</label>
+    <input class="form-control" name="groupName" id="groupName" required>
+    {% if messages %}
+      <div class="alert alert-danger" role="alert">
+        <b>Uh oh!</b> You already have a group with that name. Please choose another name.
+      </div>
+    {% endif %}
+    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Create New Group">
+  </form>
+</div>
+{% endwith %}
+{% endblock %}
