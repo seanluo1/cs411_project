@@ -11,6 +11,7 @@
   <a class="navbar-brand" href="/">SongHub</a>
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
   <ul class="nav navbar-nav navbar-right">
+      <li><a href="{{ url_for('notifications.notifications') }}">Notifications</a></li>
       <li><a href="{{ url_for('songs.add_song') }}">Add Song</a></li>
       <li><a href="{{ url_for('songs.edit_song') }}">Edit Song</a></li>
       <li><a href="{{ url_for('songs.delete_song') }}">Delete Song</a></li>
