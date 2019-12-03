@@ -54,6 +54,9 @@ def create_app(test_config=None):
     from . import users
     app.register_blueprint(users.bp)
 
+    from . import notifications
+    app.register_blueprint(notifications.bp)
+
     from . import home
     app.register_blueprint(home.bp)
     app.add_url_rule('/', endpoint='index')
