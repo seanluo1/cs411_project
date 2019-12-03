@@ -85,7 +85,7 @@ def all_songs():
             url = sotw_['Song_Url']
 
             #push personalized notification into table for all followers
-            for person in followers
+            for person in followers:
                 db_instance.execute(
                     "INSERT INTO PushNotification (UserId, MessageText, Song_Url) Values (?,?,?)",
                     (person, msg, url)
