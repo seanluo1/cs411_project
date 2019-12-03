@@ -27,6 +27,18 @@ for i in range(1, len(rows)):
     cols = [elem.text.strip() for elem in cols]
 
     song_name = cols[1]
+    #strip quotes and album name from song_name
+    quote = False
+    temp = ""
+    for char in song_name:
+        if char == "\"" and not quote:
+            quote = True
+            continue
+        elif char == "\"" and quote:
+            break
+        else:
+            temp += char
+    song_name = temp
     genre = cols[2]
     link = 'https://en.wikipedia.org' + row.select_one('a')['href']
 
