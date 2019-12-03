@@ -60,22 +60,17 @@ def all_songs():
                 (g.user["Id"], song))
                 db_instance.commit()
 
-        
-        # print("brokkee here")
-        # print(request.form["sotw_button"])
-        # print("done")
-        # sotw_id = request.form["sotw_button"]
-        # print(sotw_id)
-        # sotw = get_db().execute(
-        #     'SELECT SongName FROM Song WHERE SongId = ?',
-        #     (sotw_id,)
-        # ).fetchone()
-        
-        # db_instance.execute(
-        #     'UPDATE User SET SongOfWeek = ? WHERE Id = ?',
-        #     (sotw['SongName'], g.user["Id"],)
-        # )
-        # print("brokkee  2")
+        sotw_id = request.form.get('sotw_button', None)
+        if sotw_id:
+            sotw = get_db().execute(
+                'SELECT SongName FROM Song WHERE SongId = ?',
+                (sotw_id,)
+            ).fetchone()
+            
+            db_instance.execute(
+                'UPDATE User SET SongOfWeek = ? WHERE Id = ?',
+                (sotw['SongName'], g.user["Id"],)
+            )
 
         db_instance.commit()
         

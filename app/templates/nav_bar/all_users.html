@@ -29,12 +29,18 @@ jQuery(document).ready(function($) {
                 <th> User Id </th>
                 <th> First Name </th>
                 <th> Last Name </th>
+                <th> Following </th>
             </tr>
-            {% for item in data.items() %}
+            {% for item in data[0].items() %}
             <tr class="clickable-row" data-href='/users/id/{{item[0]}}'>
                 <td> {{ item[0] }} </td>
                 <td> {{ item[1]['first_name'] }} </td>
                 <td> {{ item[1]['last_name'] }} </td>
+                {% if item[0] in data[1] %}
+                <td><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></td>
+                {% else %}
+                <td><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
