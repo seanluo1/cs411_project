@@ -12,19 +12,6 @@ bp = Blueprint('notifications', __name__)
 def notifications():
     db_instance = get_db()
     user_id = session.get('user_id')
-    print(user_id)
-    print(type(user_id))
-
-    # db_instance.execute(
-    #     'INSERT INTO PushNotification (UserId, MessageText, Song_Url) VALUES (?, ?, ?)',
-    #     (1, "hiiiii", "fake_url"))
-
-    # db_instance.commit()
-
-    
-    # notif_table = db_instance.execute("SELECT * FROM PushNotification")
-    # for notif in notif_table:
-    #     print(dict(notif))
 
     my_notifs = db_instance.execute("SELECT * FROM PushNotification WHERE UserId=?", (user_id, ))
     all_notifs = {}
@@ -35,9 +22,5 @@ def notifications():
         temp_dict["song_url"] = item[3]
 
         all_notifs[notif_id] = temp_dict
-
-    print(all_notifs)
-
-    # all_notifs = {{1: }}
 
     return render_template("nav_bar/notifications.html", data = all_notifs)
