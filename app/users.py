@@ -43,4 +43,7 @@ def user_page(user_id):
     user_dict['id'] = user[0]
     user_dict['name'] = user[1] + " " + user[2]
 
-    return render_template("home/public.html", data=user_dict  )
+    liked_songs = db_instance.execute('SELECT S.SongId, S.SongName, S.Genre, S.Song_Url From Likes L Join Song S on S.SongId == L.SongId Where L.UserId == ?', (user_id,)).fetchall()
+    print(liked_songs)
+
+    return render_template("home/public.html", data=user_dict, song_data=liked_songs)
