@@ -17,8 +17,6 @@ def add_song():
         genre = request.form['genre']
         song_url = request.form['song_url']
 
-
-
         db.execute(
         'INSERT INTO Song (SongName, Genre, Song_Url) VALUES (?, ?, ?)',
         (name, genre, song_url))
@@ -32,7 +30,6 @@ def all_songs():
     db_instance = get_db()
     user_table = db_instance.execute("SELECT * FROM Song")
     all_songs = {}
-    liked_songs = []
     user_id = session.get('user_id')
 
     g.user = get_db().execute(
@@ -40,46 +37,45 @@ def all_songs():
     ).fetchone()
 
     if request.method == 'POST':
-        liked_songs = request.form.getlist("liked_box")
-        likes = get_db().execute(
-        'SELECT * FROM Likes WHERE UserId = ?' ,(g.user["Id"], )
-        ).fetchall()
+        current_likes = request.form.getlist("liked_box")
+        previous_likes = set()
+        like_table = get_db().execute(
+        'SELECT * FROM Likes WHERE UserId = ?' ,(g.user["Id"], ))
 
-        # print("likes")
-        # print(likes)
-        # print("liked_songs")
-        # print(liked_songs)
-        # for song in likes:
-        #     print("song idddd")
-        #     print(song["SongId"])
-        #     if song["SongId"] in liked_songs:
-        #         db_instance.execute(
-        #         'INSERT OR REPLACE INTO Likes (UserId, SongId) VALUES (?, ?)',
-        #         (g.user["Id"], song["SongId"]))
-        #     else:
-        #         print("heetrdyfugihojk;l")
-        #         print(g.user["Id"])
-        #         print(song["SongId"])
-        #         db_instance.execute(
-        #         'DELETE FROM Likes WHERE UserId=(?) AND SongId=(?)',
-        #         (g.user["Id"], song["SongId"]))
+        for like in like_table:
+           like = dict(like)
+           previous_likes.add(like["SongId"])
 
-        for song in liked_songs:
+        for song in current_likes:
             db_instance.execute(
                 'INSERT OR REPLACE INTO Likes (UserId, SongId) VALUES (?, ?)',
                 (g.user["Id"], song)
             )
+            db_instance.commit()
 
-        sotw_id = request.form["sotw_button"]
-        sotw = get_db().execute(
-            'SELECT SongName FROM Song WHERE SongId = ?',
-            (sotw_id,)
-        ).fetchone()
+        for song in previous_likes:
+            if str(song) not in current_likes:
+                db_instance.execute(
+                'DELETE FROM Likes WHERE UserId=(?) AND SongId=(?)',
+                (g.user["Id"], song))
+                db_instance.commit()
+
         
-        db_instance.execute(
-            'UPDATE User SET SongOfWeek = ? WHERE Id = ?',
-            (sotw['SongName'], g.user["Id"],)
-        )
+        # print("brokkee here")
+        # print(request.form["sotw_button"])
+        # print("done")
+        # sotw_id = request.form["sotw_button"]
+        # print(sotw_id)
+        # sotw = get_db().execute(
+        #     'SELECT SongName FROM Song WHERE SongId = ?',
+        #     (sotw_id,)
+        # ).fetchone()
+        
+        # db_instance.execute(
+        #     'UPDATE User SET SongOfWeek = ? WHERE Id = ?',
+        #     (sotw['SongName'], g.user["Id"],)
+        # )
+        # print("brokkee  2")
 
         db_instance.commit()
         
@@ -98,11 +94,7 @@ def all_songs():
 
         if found_in_likes:
             temp_dict["liked"] = "T"
-            print("found")
-            print(song_id)
         else:
-            print("not found")
-            print(song_id)
             temp_dict["liked"] = "F"
         
         temp_dict["sotw"] = item[0] #this value doesn't actually matter
