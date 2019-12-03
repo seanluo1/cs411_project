@@ -6,7 +6,40 @@
 
 {% block content %}
   <h2>Welcome to {{data['name']}}!</h2>
+  <h4>Liked Songs!</h4>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+      text-align: left;
+    }
+    table#t01 {
+      width: 100%;
+      background-color: #f1f1c1;
+    }
+  </style>
 
+  <form>
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Song Name</th>
+        <th>Genre</th>
+        <th>Url</th>
+      </tr>
 
+      {% for song in song_data %}
+      <tr>
+          <!-- <td> {{ song["SongId"] }} </td> -->
+          {% for val in song %}
+            <td> {{ val }} </td>
+          {% endfor %}
+
+      </tr>
+      {% endfor %}
+    </table>
+  </form>
 {% endblock %}
-
