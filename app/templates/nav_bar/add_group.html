@@ -13,8 +13,13 @@
 <div class="container">
   <form class="form-signin" method="post">
     <h2 class="form-signin-heading">New Group</h2>
-    <label for="firstName">Group Name</label>
+    <label for="groupName">Group Name</label>
     <input class="form-control" name="groupName" id="groupName" required>
+    {% if messages %}
+      <div class="alert alert-danger" role="alert">
+        <b>Uh oh!</b> You already have a group with that name. Please choose another name.
+      </div>
+    {% endif %}
     <input class="btn btn-lg btn-primary btn-block" type="submit" value="Create New Group">
   </form>
 </div>

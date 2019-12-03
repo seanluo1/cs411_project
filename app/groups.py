@@ -35,12 +35,24 @@ def new_group():
     myclient = pymongo.MongoClient("mongodb://localhost:27017/")
     mydb = myclient["mydatabase"]
     mycol = mydb["groups"]
+    error = None
 
     new_group = {}
     if request.method == 'POST':
         db = get_db()
 
         group_name = request.form['groupName']
+        
+        my_groups = list(mycol.find({ "admin_id": current_user_id }, {"name": 1, "_id": 0}))
+        for group in my_groups:
+            if group['name'] == group_name:
+                error = "Group Name exists"
+                break
+
+        if error:
+            flash(error, 'danger')
+            return render_template('nav_bar/add_group.html')
+
 
         new_group = {"id": 1, "name": group_name, "admin_id": current_user_id}
         mycol.insert_one(new_group)
