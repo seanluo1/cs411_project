@@ -1,0 +1,57 @@
+{% extends 'logged_in_base.html' %}
+
+{% block scripts %}
+{{super()}}
+<script>
+jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        $.post($(this).data("href") , { "id": $(this).data("user-id")});
+        window.location = $(this).data("href");
+    });
+});
+</script>
+{% endblock %}
+
+{% block header %}
+  <h1>{% block title %}Add Friends to {{data['name']}}{% endblock %}</h1>
+{% endblock %}
+
+
+
+{% block content %}
+<div class ="container">
+    <div class="page-header">
+            <h1>{{data[0]['name']}} <small> Who are we adding today? </small></h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <form method="post">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="searchName" id="searchName"  placeholder="Enter Name Here..." required>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><span class="small glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div><!-- /input-group -->
+            </form>
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    <hr>
+    {% if (data[1] | length) > 0 %}
+    <div class="panel panel-default">
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <th> User Id </th>
+                    <th> Name </th>
+                </tr>
+                {% for result in data[1] %}
+                <tr class="clickable-row" data-href="/groups/id/{{data[0]['id']}}" data-user-id="{{result['id']}}">
+                    <td> {{ result['id'] }}</td>
+                    <td> {{ result['name'] }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

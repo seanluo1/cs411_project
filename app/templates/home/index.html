@@ -4,6 +4,8 @@
   <h1>{% block title %}SongHub, the best Hub on the internet.{% endblock %}</h1>
 {% endblock %}
 
+
+
 {% block content %}
 {% if g.user['FirstName'] %}
   <h2>Hello {{g.user['FirstName']}}!</h2>
@@ -37,6 +39,16 @@
       </table>
   </div>
 </div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+<div class="container">
+    {% if messages %}
+      <div class="alert alert-danger" role="alert">
+        <b>Uh oh!</b> You don't have access to that group!
+      </div>
+    {% endif %}
+</div>
+{% endwith %}
 
 {% endblock %}
 
