@@ -2,4 +2,4 @@ Flask==1.1.1
 Flask-SQLAlchemy == 2.4.1
 flask-bootstrap == 3.3.7.1
 Flask-PyMongo == 2.3.0
-BeautifulSoup == 4.8.1
+bs4 == 4.8.1
