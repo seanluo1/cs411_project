@@ -12,20 +12,26 @@ bp = Blueprint('users', __name__)
 @bp.route("/users")
 @login_required
 def all_users():
+    current_user_id = session.get('user_id')
     db_instance = get_db()
     user_table = db_instance.execute("SELECT * FROM User")
+    follows_row = db_instance.execute("SELECT FolloweeId FROM Follows WHERE FollowerId = ?", (current_user_id,)).fetchall()
     all_users = {}
+
+    follows = [item[0] for item in follows_row]
 
     for item in user_table.fetchall():
         temp_dict = {}
         user_id = item[0]
         temp_dict["first_name"] = item[1]
         temp_dict["last_name"] = item[2]
+
         all_users[user_id]= temp_dict
 
     print(all_users)
+    print(follows)
 
-    return render_template("nav_bar/all_users.html", data = all_users)
+    return render_template("nav_bar/all_users.html", data = (all_users, follows))
 
 
 @bp.route("/users/id/<int:user_id>", methods=['GET', 'POST'])

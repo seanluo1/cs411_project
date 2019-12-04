@@ -31,7 +31,7 @@ jQuery(document).ready(function($) {
                 <th> Last Name </th>
                 <th> Following </th>
             </tr>
-            {% for item in data.items() %}
+            {% for item in data[0].items() %}
             <tr class="clickable-row" data-href='/users/id/{{item[0]}}'>
                 <td> {{ item[0] }} </td>
                 <td> {{ item[1]['first_name'] }} </td>

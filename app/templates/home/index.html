@@ -12,10 +12,31 @@
 {% endif %}
 
 {% if g.user['SongOfWeek'] %}
-  <h2>Your song of the week is {{g.user['SongOfWeek']}}</h2>
+  <h2>Your song of the week is "{{g.user['SongOfWeek']}}"</h2>
 {% else %}
   <h2>You haven't assigned a Song of the Week yet!</h2>
 {% endif %}
+<br>
+
+<div class ="container">
+  <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"> Your Friends </div>  
+    
+      <!-- Table -->
+      <table class="table">
+          <th> First Name </th>
+          <th> Last Name </th>
+          {% for item in data %}
+          <tr>
+              <td> {{ item["FirstName"] }} </td>
+              <td> {{ item["LastName"] }} </td>
+          </tr>
+          {% endfor %}
+          
+      </table>
+  </div>
+</div>
 
 {% endblock %}
 
