@@ -46,9 +46,7 @@ def user_page(user_id):
 
     liked_songs = db_instance.execute('SELECT S.SongId, S.SongName, S.Genre, S.Song_Url From User U join Likes L on U.Id == L.UserId Join Song S on S.SongId == L.SongId Where U.Id == ?', (user[0],)).fetchall()
 
-    follow = request.form.get('follow_button', None)
-
-    if follow:
+    if request.method == 'POST':
         if session.get('user_id') == user[0]:
             print("cant follow self")
         else:
