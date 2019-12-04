@@ -30,12 +30,12 @@ jQuery(document).ready(function($) {
         <table class="table">
             <tr>
                 <th> Group Name </th>
-                <th> Admin Id </th>
+                <th> Group Owner </th>
             </tr>
             {% for item in data %}
-            <tr class="clickable-row" data-href="/groups/id/{{item['id']}}">
-                <td> {{ item['name'] }} </td>
-                <td> {{ item['admin_id'] }} </td>
+            <tr class="clickable-row" data-href="/groups/id/{{item[0]}}">
+                <td> {{ item[1] }} </td>
+                <td> {{ item[2] }} </td>
             </tr>
             {% endfor %}
         </table>
