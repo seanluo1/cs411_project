@@ -127,11 +127,11 @@ def all_songs():
 def delete_song():
     if request.method == 'POST':
         db = get_db()
-        song_id = request.form['song_id']
+        song_id = int(request.form['song_id'])
 
         db.execute(
             'DELETE FROM Song WHERE SongId=(?)',
-            (song_id)
+            (song_id,)
         )
 
         db.commit()
