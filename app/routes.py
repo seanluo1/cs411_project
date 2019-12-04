@@ -8,7 +8,7 @@ index_blueprint = Blueprint("index", __name__ ,template_folder='templates')
 @index_blueprint.route("/add_user", methods=['POST'])
 def test1():
     data = request.get_json()
-    first_name = data["first_name"] 
+    first_name = data["first_name"]
     last_name = data["last_name"]
     email = data["email"]
     password = data["password"]
@@ -38,8 +38,4 @@ def test2():
         temp_dict["password"] = item[4]
         all_users[user_id]= temp_dict
 
-    print(all_users)
-
     return render_template("hello.html")
-
-

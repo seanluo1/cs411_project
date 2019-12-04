@@ -77,7 +77,7 @@ def all_songs():
             followers = [item[0] for item in followers_col]
             curr_user = g.user["FirstName"] + " " + g.user["LastName"]
             msg = curr_user + " changed their Song of the Week to " + sotw['SongName'] + "."
-            
+
             sotw_ = get_db().execute(
                 'SELECT Song_Url FROM Song WHERE SongId = ?',
                 (sotw_id,)
@@ -92,7 +92,7 @@ def all_songs():
                 )
 
         db_instance.commit()
-        
+
 
     for item in user_table.fetchall():
         temp_dict = {}
@@ -110,16 +110,12 @@ def all_songs():
             temp_dict["liked"] = "T"
         else:
             temp_dict["liked"] = "F"
-        
+
         temp_dict["sotw"] = item[0] #this value doesn't actually matter
 
         all_songs[song_id]= temp_dict
 
     like_table = db_instance.execute("SELECT * FROM Likes")
-    for like in like_table:
-        print(dict(like))
-
-
 
     return render_template("nav_bar/my_songs.html", data = all_songs)
 

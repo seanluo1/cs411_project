@@ -28,8 +28,6 @@ def all_users():
 
         all_users[user_id]= temp_dict
 
-    print(all_users)
-    print(follows)
 
     return render_template("nav_bar/all_users.html", data = (all_users, follows))
 
