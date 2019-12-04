@@ -7,24 +7,31 @@
 
 
 {% block content %}
-{% if g.user['FirstName'] %}
-  <h2>Hello {{g.user['FirstName']}}!</h2>
-{% else %}
-  <h2>Please login.</h2>
-{% endif %}
 
-{% if g.user['SongOfWeek'] %}
-  <h2>Your song of the week is "{{g.user['SongOfWeek']}}"</h2>
-{% else %}
-  <h2>You haven't assigned a Song of the Week yet!</h2>
-{% endif %}
+<div class="jumbotron">
+  <div class="container">
+      {% if g.user['FirstName'] %}
+        <h2>Hello {{g.user['FirstName']}}!</h2>
+      {% else %}
+        <h2>Please login.</h2>
+      {% endif %}
+
+      {% if g.user['SongOfWeek'] %}
+        <h4>Your song of the week is "{{g.user['SongOfWeek']}}"</h4>
+      {% else %}
+        <h4>You haven't assigned a Song of the Week yet!</h4>
+      {% endif %}
+  </div>
+  </div>
+
+
 <br>
 
 <div class ="container">
   <div class="panel panel-default">
       <!-- Default panel contents -->
-      <div class="panel-heading"> Your Friends </div>  
-    
+      <div class="panel-heading"> Your Friends </div>
+
       <!-- Table -->
       <table class="table">
           <th> First Name </th>
@@ -35,7 +42,7 @@
               <td> {{ item["LastName"] }} </td>
           </tr>
           {% endfor %}
-          
+
       </table>
   </div>
 </div>
@@ -51,4 +58,3 @@
 {% endwith %}
 
 {% endblock %}
-
