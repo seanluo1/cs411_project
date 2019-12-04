@@ -23,9 +23,14 @@ def all_groups():
     mycol = mydb["groups"]
 
     my_groups = list(mycol.find({ "members": current_user_id }))
+    group_owners = []
+    for group in my_groups:
+        group_owner_row = db_instance.execute("SELECT * FROM User WHERE id = ?", (group['admin_id'],)).fetchone()
+        group_owners.append(group_owner_row[1] + " " + group_owner_row[2])
 
+    group_name_to_owner = [(my_groups[i]['id'], my_groups[i]['name'], group_owners[i]) for i in range(len(my_groups))]
 
-    return render_template("groups/my_groups.html", data =my_groups )
+    return render_template("groups/my_groups.html", data =group_name_to_owner )
 
 
 @bp.route('/new_group', methods=('GET', 'POST'))
