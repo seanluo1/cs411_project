@@ -5,41 +5,42 @@
 {% endblock %}
 
 {% block content %}
-  <h2>Welcome to {{data['name']}}!</h2>
-  <h4>Liked Songs!</h4>
-  <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 15px;
-      text-align: left;
-    }
-    table#t01 {
-      width: 100%;
-      background-color: #f1f1c1;
-    }
-  </style>
+  <h2></h2>
 
-  <form>
-    <table>
-      <tr>
-        <th>Id</th>
-        <th>Song Name</th>
-        <th>Genre</th>
-        <th>Url</th>
-      </tr>
+  <div class="jumbotron">
+    <div class="container">
+        <h1>{{data['name']}}'s Profile!</h1>
+        <br>
+        <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Add Members</a></p> -->
+        <form method=post>
+            <input type=submit value=Follow>
+        </form>
+    </div>
+    </div>
 
-      {% for song in song_data %}
-      <tr>
-          <!-- <td> {{ song["SongId"] }} </td> -->
-          {% for val in song %}
-            <td> {{ val }} </td>
-          {% endfor %}
+  <br><br>
+  <div class ="container">
+      <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Liked songs!</div>
 
-      </tr>
-      {% endfor %}
-    </table>
-  </form>
+          <!-- Table -->
+          <table class="table">
+              <tr>
+                  <th> Id </th>
+                  <th> Song Name </th>
+                  <th> Genre </th>
+                  <th> URL </th>
+              </tr>
+              {% for song in song_data %}
+              <tr>
+                  {% for val in song %}
+                    <td> {{ val }} </td>
+                  {% endfor %}
+              </tr>
+              {% endfor %}
+          </table>
+      </div>
+  </div>
+
 {% endblock %}

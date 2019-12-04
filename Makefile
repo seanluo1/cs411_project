@@ -8,8 +8,9 @@ install:
 
 init:
 	sqlite3 instance/app.sqlite < app/schema.sql
-
+	python3 scrape.py
 run:
+	sudo service mongodb start
 	flask run
 
 clean:

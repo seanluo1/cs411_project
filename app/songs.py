@@ -62,15 +62,34 @@ def all_songs():
 
         sotw_id = request.form.get('sotw_button', None)
         if sotw_id:
+            #update current user sotw
             sotw = get_db().execute(
                 'SELECT SongName FROM Song WHERE SongId = ?',
                 (sotw_id,)
             ).fetchone()
-            
             db_instance.execute(
                 'UPDATE User SET SongOfWeek = ? WHERE Id = ?',
                 (sotw['SongName'], g.user["Id"],)
             )
+
+            #add notification for all of current user's followers
+            followers_col = db_instance.execute("SELECT FollowerId FROM Follows WHERE FolloweeId = ?", (user_id,)).fetchall()
+            followers = [item[0] for item in followers_col]
+            curr_user = g.user["FirstName"] + " " + g.user["LastName"]
+            msg = curr_user + " changed their Song of the Week to " + sotw['SongName'] + "."
+            
+            sotw_ = get_db().execute(
+                'SELECT Song_Url FROM Song WHERE SongId = ?',
+                (sotw_id,)
+            ).fetchone()
+            url = sotw_['Song_Url']
+
+            #push personalized notification into table for all followers
+            for person in followers:
+                db_instance.execute(
+                    "INSERT INTO PushNotification (UserId, MessageText, Song_Url) Values (?,?,?)",
+                    (person, msg, url)
+                )
 
         db_instance.commit()
         
@@ -108,11 +127,11 @@ def all_songs():
 def delete_song():
     if request.method == 'POST':
         db = get_db()
-        song_id = request.form['song_id']
+        song_id = int(request.form['song_id'])
 
         db.execute(
             'DELETE FROM Song WHERE SongId=(?)',
-            (song_id)
+            (song_id,)
         )
 
         db.commit()

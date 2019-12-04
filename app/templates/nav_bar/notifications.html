@@ -1,0 +1,32 @@
+{% extends 'logged_in_base.html' %}
+
+
+{% block header %}
+  <h1>{% block title %}All Users{% endblock %}</h1>
+{% endblock %}
+
+
+
+{% block content %}
+<div class ="container">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"> Notifications </div>  
+      
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th> Message </th>
+                <th> Url </th>
+            </tr>
+            {% for item in data.items() %}
+            <tr>
+                <td> {{ item[1]["msg"] }} </td>
+                <td> {{ item[1]['song_url'] }} </td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+</div>
+{% endblock %}
