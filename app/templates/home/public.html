@@ -5,41 +5,34 @@
 {% endblock %}
 
 {% block content %}
-  <h2>Welcome to {{data['name']}}'s page!</h2>
-  <h4>{{data['name']}}'s liked songs</h4>
-  <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 15px;
-      text-align: left;
-    }
-    table#t01 {
-      width: 100%;
-      background-color: #f1f1c1;
-    }
-  </style>
-
-  <form>
-    <table>
-      <tr>
-        <th>Id</th>
-        <th>Song Name</th>
-        <th>Genre</th>
-        <th>Url</th>
-      </tr>
-
-      {% for song in song_data %}
-      <tr>
-          <!-- <td> {{ song["SongId"] }} </td> -->
-          {% for val in song %}
-            <td> {{ val }} </td>
-          {% endfor %}
-
-      </tr>
-      {% endfor %}
-    </table>
+  <h2>Welcome to {{data['name']}}!</h2>
+  <!-- <button type="submit" name="follow_button" value={{ k }} />Follow -->
+  <form method=post>
+      <input type=submit value=Follow>
   </form>
+  <br><br>
+  <div class ="container">
+      <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Liked songs!</div>
+
+          <!-- Table -->
+          <table class="table">
+              <tr>
+                  <th> Id </th>
+                  <th> Song Name </th>
+                  <th> Genre </th>
+                  <th> URL </th>
+              </tr>
+              {% for song in song_data %}
+              <tr>
+                  {% for val in song %}
+                    <td> {{ val }} </td>
+                  {% endfor %}
+              </tr>
+              {% endfor %}
+          </table>
+      </div>
+  </div>
+
 {% endblock %}
