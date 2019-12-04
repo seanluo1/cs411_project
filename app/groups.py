@@ -63,7 +63,7 @@ def new_group():
     return render_template('groups/add_group.html')
 
 
-@bp.route("/groups/id/<int:group_id>")
+@bp.route("/groups/id/<int:group_id>", methods=['GET', 'POST'])
 @login_required
 def group_page(group_id):
     current_user_id = session.get('user_id')
@@ -73,6 +73,12 @@ def group_page(group_id):
     mycol = mydb["groups"]
     error = None
 
+
+    if request.method == 'POST':
+        user_id_to_add = request.form['id']
+        
+
+    
     group = list(mycol.find({ "id": group_id }))[0]
     group_member_ids = group['members']
 
@@ -80,11 +86,11 @@ def group_page(group_id):
         flash(error, 'danger')
         return redirect(url_for('home.index'))
     
-    print(group_member_ids)
+    #print(group_member_ids)
     group_members_table = db_instance.execute("SELECT * FROM User WHERE id IN (%s)" % ','.join('?'*len(group_member_ids)), group_member_ids).fetchall()
-    print(group_members_table)
+    #print(group_members_table)
     
-    print(group)
+    #print(group)
     group_members = []
 
     
@@ -96,7 +102,7 @@ def group_page(group_id):
         member_dict["sotw"] = member[5]
         group_members.append(member_dict)
 
-    print(group_members)
+    #print(group_members)
 
     return render_template("groups/group_page.html", data=(group, group_members)  )
 

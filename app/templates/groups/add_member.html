@@ -5,6 +5,7 @@
 <script>
 jQuery(document).ready(function($) {
     $(".clickable-row").click(function() {
+        $.post($(this).data("href") , { "id": $(this).data("user-id")});
         window.location = $(this).data("href");
     });
 });
@@ -40,10 +41,12 @@ jQuery(document).ready(function($) {
             <!-- Table -->
             <table class="table">
                 <tr>
+                    <th> User Id </th>
                     <th> Name </th>
                 </tr>
                 {% for result in data[1] %}
-                <tr class="clickable-row" data-href="/users/id/{{result['id']}}">
+                <tr class="clickable-row" data-href="/groups/id/{{data[0]['id']}}" data-user-id="{{result['id']}}">
+                    <td> {{ result['id'] }}</td>
                     <td> {{ result['name'] }} </td>
                 </tr>
                 {% endfor %}
