@@ -22,7 +22,7 @@ def all_groups():
     mydb = myclient["mydatabase"]
     mycol = mydb["groups"]
 
-    my_groups = list(mycol.find({ "admin_id": current_user_id }))
+    my_groups = list(mycol.find({ "members": current_user_id }))
 
 
     return render_template("groups/my_groups.html", data =my_groups )
@@ -74,23 +74,23 @@ def group_page(group_id):
     error = None
 
 
-    if request.method == 'POST':
-        user_id_to_add = request.form['id']
-        
+    group = list(mycol.find({ "id": group_id }))[0]
 
+    if request.method == 'POST':
+        user_id_to_add = int(request.form['id'])
+        mycol.update({"id": group['id']}, { '$push' : { 'members': user_id_to_add }})
+        
     
     group = list(mycol.find({ "id": group_id }))[0]
+    
     group_member_ids = group['members']
 
     if current_user_id not in group_member_ids:
         flash(error, 'danger')
         return redirect(url_for('home.index'))
     
-    #print(group_member_ids)
     group_members_table = db_instance.execute("SELECT * FROM User WHERE id IN (%s)" % ','.join('?'*len(group_member_ids)), group_member_ids).fetchall()
-    #print(group_members_table)
-    
-    #print(group)
+
     group_members = []
 
     
@@ -101,8 +101,6 @@ def group_page(group_id):
         member_dict["name"] = member[1] + " " + member[2]
         member_dict["sotw"] = member[5]
         group_members.append(member_dict)
-
-    #print(group_members)
 
     return render_template("groups/group_page.html", data=(group, group_members)  )
 
@@ -119,7 +117,6 @@ def add_member(group_id):
     error = None
 
     group = list(mycol.find({ "id": group_id }))[0]
-    print(group)
 
     all_results = {}
 
@@ -128,7 +125,6 @@ def add_member(group_id):
         query = request.form['searchName']
         formatted_query = "\"%" + query + "%\""
         sql_query = "SELECT * FROM User WHERE FirstName || ' ' || LastName LIKE " + formatted_query
-        print(sql_query)
         query_results = db_instance.execute(sql_query)
         all_results = []
         for item in query_results.fetchall():
