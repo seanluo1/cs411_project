@@ -1,0 +1,65 @@
+{% extends 'logged_in_base.html' %}
+
+{% block scripts %}
+{{super()}}
+<script>
+jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+{% endblock %}
+
+{% block header %}
+  <h1>{% block title %}SongHub, the best Hub on the internet.{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+    <div class="container">
+        <h1>{{data[0]['name']}}</h1>
+        <p>...</p>
+        <p><a class="btn btn-primary btn-lg" href="/groups/id/{{data[0]['id']}}/add_member" role="button">Add Members</a></p>
+        <p><a class="btn btn-danger btn-lg" href="#" role="button" data-toggle="modal" data-target="#smallModal">Leave Group</a></p>
+        
+    </div>
+    </div>
+    <div class="container">
+    <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Group Members</div>  
+          
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <th> Name </th>
+                    <th> Song of the Week </th>
+                </tr>
+                {% for member in data[1] %}
+                <tr class="clickable-row" data-href='/users/id/{{member["id"]}}'>
+                    <td> {{ member["name"] }} </td>
+                    <td> {{ member["sotw"] }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModal" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Leave Group</h4>
+            </div>
+            <div class="modal-body">
+              <h5>Are you sure you'd like to leave?</h5>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+              <button type="button" class="btn btn-danger">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
