@@ -5,11 +5,19 @@
 {% endblock %}
 
 {% block content %}
-  <h2>{{data['name']}}'s Profile!</h2>
-  <!-- <button type="submit" name="follow_button" value={{ k }} />Follow -->
-  <form method=post>
-      <input type=submit value=Follow>
-  </form>
+  <h2></h2>
+
+  <div class="jumbotron">
+    <div class="container">
+        <h1>{{data['name']}}'s Profile!</h1>
+        <br>
+        <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Add Members</a></p> -->
+        <form method=post>
+            <input type=submit value=Follow>
+        </form>
+    </div>
+    </div>
+
   <br><br>
   <div class ="container">
       <div class="panel panel-default">
